@@ -1,0 +1,197 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+type Props = CollectionEntry<'blog'>['data'];
+
+const { title, author, description, pubDate, tags, hot, nota, couple, amazonLink } = Astro.props;
+---
+
+<html lang="pt-br">
+  <head>
+    <BaseHead title={title} description={description} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      html, body {
+        margin: 0;
+        height: 100%;
+        background: #FAF6F0 !important;
+        scrollbar-width: thin;
+        scrollbar-color: #CDAA78 transparent;
+      }
+
+      body::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      body::-webkit-scrollbar-track {
+        background: transparent;
+      }
+
+      body::-webkit-scrollbar-thumb {
+        background-color: #CDAA78;
+        border-radius: 999px;
+      }
+
+      body::-webkit-scrollbar-thumb:hover {
+        background-color: #A97B5D;
+      }
+    </style>
+  </head>
+
+  <body class="post-body">
+    <Header />
+    <main>
+      <article>
+        <div class="prose">
+          <div class="title">
+            <div class="date">
+              <FormattedDate date={pubDate} />
+            </div>
+            <h1>{title}</h1>
+            <div class="author">por {author}</div>
+            <div class="meta">
+              <span>Nota: {nota}/10</span>
+              <span>Hot: {hot}/5</span>
+            </div>
+            {couple && couple.length > 0 && (
+              <div class="meta">Casal: {couple.join(' & ')}</div>
+            )}
+            <div class="tags">
+              {tags.map((tag) => <span class="tag">{tag}</span>)}
+            </div>
+          </div>
+
+          <div class="post-content">
+            <slot />
+          </div>
+
+          <a class="amazon-link" href={amazonLink} target="_blank" rel="noopener noreferrer">
+            Comprar na Amazon
+          </a>
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .post-body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .prose {
+    width: 100%;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+    box-sizing: border-box;
+  }
+
+  .title {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  .date {
+    font-family: "Lora", serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #A97B5D;
+    margin-bottom: 0.6rem;
+  }
+
+  .title h1 {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 600;
+    font-size: 2.3rem;
+    line-height: 1.2;
+    color: #4A3F35;
+    margin: 0 0 0.6rem;
+  }
+
+  .author {
+    font-family: "Lora", serif;
+    font-size: 0.95rem;
+    color: #8A7A67;
+    margin-bottom: 0.75rem;
+  }
+
+  .meta {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    font-family: "Lora", serif;
+    font-size: 0.85rem;
+    color: #6b5e4f;
+    margin: 0.3rem 0;
+  }
+
+  .tags {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin: 1rem 0 0;
+  }
+
+  .tag {
+    font-family: "Lora", serif;
+    font-size: 0.78rem;
+    color: #A97B5D;
+    background: #F1E4D8;
+    border: 1px solid #E3D2C0;
+    padding: 0.25rem 0.85rem;
+    border-radius: 999px;
+  }
+
+  .post-content {
+    font-family: "Lora", serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    color: #4A3F35;
+    border-top: 1px solid #E3D2C0;
+    padding-top: 2rem;
+  }
+
+  .post-content :global(p) {
+    margin: 0 0 1.2rem;
+  }
+
+  .amazon-link {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 0.7rem 1.6rem;
+    font-family: "Lora", serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: #FAF6F0;
+    background: #A97B5D;
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background 0.2s ease;
+  }
+
+  .amazon-link:hover {
+    background: #93684d;
+  }
+</style>

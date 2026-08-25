@@ -1,0 +1,264 @@
+---
+---
+
+<div class="agent-card">
+  <div class="agent-glyph" aria-hidden="true">
+    <svg viewBox="0 0 40 40" width="22" height="22">
+      <g fill="#A97B5D" opacity="0.85">
+        <circle cx="20" cy="10" r="7" />
+        <circle cx="30" cy="20" r="7" />
+        <circle cx="20" cy="30" r="7" />
+        <circle cx="10" cy="20" r="7" />
+        <circle cx="20" cy="20" r="5" fill="#FAF6F0" />
+      </g>
+    </svg>
+  </div>
+  <p class="agent-eyebrow">peça uma indicação</p>
+  <p class="agent-copy">Conta o que você quer e eu busco entre tudo que já li.</p>
+
+  <div class="agent-chat">
+    <div id="agent-messages" class="agent-messages"></div>
+    <form id="agent-form" class="agent-form">
+      <input
+        type="text"
+        id="agent-input"
+        placeholder="ex: age gap bem tenso"
+        autocomplete="off"
+      />
+      <button type="submit" id="agent-submit" aria-label="Enviar">➤</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('agent-form') as HTMLFormElement | null;
+  const input = document.getElementById('agent-input') as HTMLInputElement | null;
+  const submitBtn = document.getElementById('agent-submit') as HTMLButtonElement | null;
+  const messages = document.getElementById('agent-messages');
+
+  function addMessage(text: string, who: 'user' | 'agent') {
+    if (!messages) return null;
+    const p = document.createElement('p');
+    p.className = `msg msg-${who}`;
+    p.textContent = text;
+    messages.appendChild(p);
+    messages.scrollTop = messages.scrollHeight;
+    return p;
+  }
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!input || !messages) return;
+
+    const question = input.value.trim();
+    if (!question) return;
+
+    if (submitBtn) submitBtn.disabled = true;
+
+    addMessage(question, 'user');
+    input.value = '';
+
+    const typing = addMessage('pensando...', 'agent');
+    if (typing) typing.classList.add('msg-typing');
+
+    try {
+      const res = await fetch('/api/agent', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: question }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || 'Erro desconhecido');
+      }
+
+      if (typing) {
+        typing.textContent = data.reply;
+        typing.classList.remove('msg-typing');
+      }
+    } catch (err) {
+      console.error('Erro ao chamar o agente:', err);
+      if (typing) {
+        typing.textContent = 'Não consegui buscar uma indicação agora — tenta de novo em instantes.';
+        typing.classList.remove('msg-typing');
+      }
+    } finally {
+      if (submitBtn) submitBtn.disabled = false;
+      messages.scrollTop = messages.scrollHeight;
+      input.focus();
+    }
+  });
+</script>
+
+<style is:global>
+  .agent-card {
+    background: #F1E4D8;
+    border: 1px solid #E3D2C0;
+    border-radius: 12px;
+    padding: 0.9rem 0.9rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .agent-glyph {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 0.2rem;
+    flex-shrink: 0;
+  }
+
+  .agent-eyebrow {
+    font-family: "Lora", serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #A97B5D;
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .agent-copy {
+    font-family: "Lora", serif;
+    font-size: 0.85rem;
+    color: #6b5e4f;
+    margin: 0 0 0.75rem;
+    line-height: 1.35;
+    flex-shrink: 0;
+  }
+
+  .agent-chat {
+    text-align: left;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Chat cresce pra baixo, com rolagem própria — a mensagem
+     mais recente sempre visível no fim, histórico preservado. */
+  .agent-messages {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    overflow-y: auto;
+    margin-bottom: 0.5rem;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: #CDAA78 transparent;
+  }
+
+  .agent-messages::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .agent-messages::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .agent-messages::-webkit-scrollbar-thumb {
+    background-color: #CDAA78;
+    border-radius: 999px;
+  }
+
+  .agent-messages::-webkit-scrollbar-thumb:hover {
+    background-color: #A97B5D;
+  }
+
+  .msg {
+    font-family: "Lora", serif;
+    font-size: 0.92rem;
+    line-height: 1.45;
+    margin: 0;
+    padding: 0.5rem 0.7rem;
+    border-radius: 10px;
+    max-width: 90%;
+  }
+
+  .msg-user {
+    align-self: flex-end;
+    background: #C79B7E;
+    color: #FAF6F0;
+    border-bottom-right-radius: 2px;
+  }
+
+  .msg-agent {
+    align-self: flex-start;
+    background: #FAF6F0;
+    color: #4A3F35;
+    border-bottom-left-radius: 2px;
+  }
+
+  .msg-typing {
+    opacity: 0.6;
+  }
+
+  .agent-form {
+    display: flex;
+    gap: 0.4rem;
+    flex-shrink: 0;
+  }
+
+  #agent-input {
+    flex: 1;
+    min-width: 0;
+    font-family: "Lora", serif;
+    font-size: 0.9rem;
+    padding: 0.65rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid #CDAA78;
+    background: #FAF6F0;
+    color: #4A3F35;
+    outline: none;
+  }
+
+  #agent-input::placeholder {
+    color: #a99a86;
+  }
+
+  #agent-input:focus {
+    border-color: #A97B5D;
+  }
+
+  .agent-form button {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: none;
+    background: #A97B5D;
+    color: #FAF6F0;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .agent-form button:hover {
+    background: #93684d;
+  }
+
+  .agent-form button:disabled {
+    opacity: 0.6;
+    cursor: default;
+  }
+
+  @media (max-width: 860px) {
+    .agent-card {
+      overflow: visible;
+    }
+    .agent-chat {
+      overflow: visible;
+    }
+    .agent-messages {
+      overflow-y: auto;
+      max-height: 220px;
+    }
+  }
+</style>

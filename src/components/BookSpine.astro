@@ -1,0 +1,105 @@
+---
+interface Props {
+  title: string;
+  author: string;
+  slug: string;
+  color: string; // hex value
+}
+const { title, author, slug, color } = Astro.props;
+---
+
+<a href={`/blog/${slug}`} class="strip" style={`--strip-color: ${color}`}>
+  <span class="flower" aria-hidden="true">
+    <svg viewBox="0 0 40 40" width="28" height="28">
+      <g fill="currentColor" opacity="0.85">
+        <circle cx="20" cy="10" r="7" />
+        <circle cx="30" cy="20" r="7" />
+        <circle cx="20" cy="30" r="7" />
+        <circle cx="10" cy="20" r="7" />
+        <circle cx="20" cy="20" r="5" fill="#FAF6F0" />
+      </g>
+    </svg>
+  </span>
+  <span class="strip-text">
+    <span class="strip-title">{title}</span>
+    <span class="strip-author">{author}</span>
+  </span>
+</a>
+
+<style>
+  .strip {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    width: 100%;
+    max-width: 360px;
+    padding: 0.75rem 1.15rem;
+    background: var(--strip-color);
+    text-decoration: none;
+
+    /* retângulo com cantos suavemente arredondados */
+    border-radius: 14px;
+    overflow: hidden;
+
+    /* sombra arredondada */
+    box-shadow: 0 4px 12px rgba(90, 70, 55, 0.18);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    flex-shrink: 0;
+  }
+
+  .strip::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit; /* garante que segue os cantos */
+    background: repeating-linear-gradient(
+      100deg,
+      rgba(255, 255, 255, 0.05) 0px,
+      rgba(255, 255, 255, 0.05) 2px,
+      transparent 2px,
+      transparent 5px
+    );
+    pointer-events: none;
+  }
+
+  .strip:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(90, 70, 55, 0.25);
+  }
+
+  .flower {
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.9);
+    width: 20px;
+    height: 20px;
+  }
+
+  .flower svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .strip-text {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  .strip-title {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #FAF6F0;
+    line-height: 1.15;
+  }
+
+  .strip-author {
+    font-family: "Lora", serif;
+    font-size: 0.75rem;
+    color: rgba(250, 246, 240, 0.8);
+    margin-top: 0.2rem;
+    letter-spacing: 0.02em;
+  }
+</style>

@@ -1,0 +1,40 @@
+---
+const today = new Date();
+---
+
+<footer>
+    <div class="footer-inner">
+        &copy; {today.getFullYear()} BookMark. Todos os direitos reservados.
+
+         ❤︎︎
+
+    </div>
+</footer>
+<style>
+    footer {
+        padding: 0.4em 0.1em 0.1em;
+        background: #F1E4D8;
+        border-top: 1px solid #E3D2C0;
+        color: #8a7a67;
+        text-align: center;
+    }
+    .footer-inner {
+        max-width: 560px;
+        margin: 0 auto;
+        font-family: "Lora", serif;
+        font-size: 0.85rem;
+    }
+    .social-links {
+        display: flex;
+        justify-content: center;
+        gap: 1em;
+        margin-top: 1em;
+    }
+    .social-links a {
+        text-decoration: none;
+        color: #A97B5D;
+    }
+    .social-links a:hover {
+        color: #6b5e4f;
+    }
+</style>

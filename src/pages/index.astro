@@ -1,0 +1,221 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import SearchBar from '../components/SearchBar.astro';
+import BookShelf from '../components/BookShelf.astro';
+import AgentCard from '../components/AgentCard.astro';
+
+const title = 'Bookmark';
+const description = 'Opiniões sinceras sobre os romances que estou lendo.';
+---
+
+<html lang="pt-br">
+  <head>
+    <BaseHead title={title} description={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        overflow: hidden;
+        background: #faf6f0;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img src="/side-left.png" alt="" class="side-decor decor-left" />
+    <img src="/side-right.png" alt="" class="side-decor decor-right" />
+
+    <div class="page">
+      <Header />
+
+      <main>
+        <div class="hero-line">
+          <p class="hero-text">
+            <span class="eyebrow">bookmark</span> — marcando páginas, guardando opiniões
+          </p>
+        </div>
+
+        <div class="layout">
+          <div class="main-col">
+            <BookShelf />
+          </div>
+
+          <aside class="side-col">
+            <SearchBar />
+            <AgentCard />
+          </aside>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  </body>
+</html>
+
+<style>
+  .page {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden; /* mantém a página sem scroll */
+    position: relative;
+    z-index: 1;
+  }
+
+  main {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* mantém o layout da home */
+  }
+
+  /* ---------- Hero ---------- */
+
+  .hero-line {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+  }
+
+  .hero-text {
+    margin: 0;
+    text-align: center;
+    font-family: "Lora", serif;
+    font-size: 1.6rem;
+    color: #6b5e4f;
+  }
+
+  .eyebrow {
+    font-family: "Cormorant Garamond", serif;
+    font-style: italic;
+    font-weight: 600;
+    color: #4a3f35;
+    font-size: 1.9rem;
+  }
+
+  /* ---------- Flores laterais ---------- */
+
+  .side-decor {
+    position: fixed;
+    top: -2vh;
+    height: 104vh;
+    width: auto;
+    max-width: 20vw;
+    object-fit: cover;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.9;
+  }
+
+  .decor-left {
+    left: 0;
+  }
+
+  .decor-right {
+    right: 0;
+  }
+
+  @media (max-width: 1100px) {
+    .side-decor {
+      display: none;
+    }
+  }
+
+  /* ---------- Layout principal ---------- */
+
+  .layout {
+    flex: 1;
+    min-height: 0;
+
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    column-gap: 2.5rem;
+
+    max-width: 1100px;
+    width: 100%;
+
+    margin: 0 auto;
+    padding: 0 1.25rem 1rem;
+    box-sizing: border-box;
+
+    /* ✅ CORREÇÃO:
+       não corta a sombra dos livros */
+    overflow: visible;
+  }
+
+  .main-col {
+    min-height: 0;
+
+    /* ✅ CORREÇÃO:
+       deixa o box-shadow dos BookSpine aparecer */
+    overflow: visible;
+  }
+
+  .side-col {
+    min-height: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+
+    width: 100%;
+    max-width: 340px;
+    margin-left: auto;
+
+    padding-left: 2rem;
+    overflow: visible;
+  }
+
+  /* ---------- Responsivo ---------- */
+
+  @media (max-width: 860px) {
+    html,
+    body {
+      height: auto;
+      overflow: auto;
+    }
+
+    .page {
+      height: auto;
+      overflow: visible;
+    }
+
+    main {
+      overflow: visible;
+    }
+
+    .layout {
+      grid-template-columns: 1fr;
+      grid-template-rows: none;
+      overflow: visible;
+    }
+
+    .main-col,
+    .side-col {
+      height: auto;
+      overflow: visible;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .hero-text {
+      font-size: 1.1rem;
+    }
+  }
+</style>

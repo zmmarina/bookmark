@@ -1,0 +1,91 @@
+---
+import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header>
+    <nav>
+       <div class="internal-links">
+          <HeaderLink href="/">Home</HeaderLink>
+          <HeaderLink href="/blog">Blog</HeaderLink>
+       </div>
+       <h2><a href="/">{SITE_TITLE}</a></h2>
+       <div class="social-links">
+          <a href="https://instagram.com/energia.mark" target="_blank">
+             <span class="sr-only">Siga no Instagram</span>
+             <svg viewBox="0 0 24 24" aria-hidden="true" width="20" height="20">
+                <path
+                   fill="currentColor"
+                   d="M12 2c2.717 0 3.056.01 4.122.06 1.065.05 1.79.217 2.428.465.66.256 1.216.6 1.772 1.153a4.908 4.908 0 0 1 1.153 1.772c.247.637.415 1.363.465 2.428.05 1.066.06 1.405.06 4.122 0 2.717-.01 3.056-.06 4.122-.05 1.065-.218 1.79-.465 2.428a4.883 4.883 0 0 1-1.153 1.772 4.915 4.915 0 0 1-1.772 1.153c-.637.247-1.363.415-2.428.465-1.066.05-1.405.06-4.122.06-2.717 0-3.056-.01-4.122-.06-1.065-.05-1.79-.218-2.428-.465a4.89 4.89 0 0 1-1.772-1.153 4.904 4.904 0 0 1-1.153-1.772c-.248-.637-.415-1.363-.465-2.428C2.01 15.056 2 14.717 2 12c0-2.717.01-3.056.06-4.122.05-1.065.217-1.79.465-2.428a4.88 4.88 0 0 1 1.153-1.772A4.897 4.897 0 0 1 5.45 2.525c.638-.248 1.362-.415 2.428-.465C8.944 2.01 9.283 2 12 2zm0 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.25a3.25 3.25 0 1 1 0-6.5 3.25 3.25 0 0 1 0 6.5zm5.5-8.65a1.17 1.17 0 1 1-2.34 0 1.17 1.17 0 0 1 2.34 0z"
+                ></path>
+             </svg>
+          </a>
+       </div>
+    </nav>
+</header>
+<style>
+    header {
+       margin: 0;
+       padding: 0;
+       background: #FAF6F0;
+       border-bottom: 1px solid #E3D2C0;
+       flex-shrink: 0;
+    }
+    h2 {
+       margin: 0;
+       font-size: 1.95rem;
+       text-align: center;
+    }
+    h2 a,
+    h2 a.active {
+       font-family: "Cormorant Garamond", serif;
+       font-style: italic;
+       font-weight: 600;
+       color: #4A3F35;
+       text-decoration: none;
+    }
+    nav {
+       display: grid;
+       grid-template-columns: 1fr auto 1fr;
+       align-items: center;
+       max-width: 1100px;
+       margin: 0 auto;
+       padding: 0 1.25rem;
+       box-sizing: border-box;
+       min-height: 52px;
+    }
+    .internal-links {
+       display: flex;
+    }
+    .internal-links a,
+    .social-links a {
+       font-family: "Lora", serif;
+       font-size: 1.05rem;
+       padding: 0.6em;
+       color: #6b5e4f;
+       border-bottom: 2px solid transparent;
+       text-decoration: none;
+    }
+    .internal-links a.active {
+       color: #A97B5D;
+       border-bottom-color: #A97B5D;
+    }
+    .social-links {
+       display: flex;
+       justify-content: flex-end;
+       gap: 0.9em;
+       color: #A97B5D;
+    }
+    .social-links a {
+       padding: 0;
+       display: flex;
+    }
+    .social-links a:hover {
+       color: #6b5e4f;
+    }
+    @media (max-width: 600px) {
+       .internal-links a:not(:first-child) {
+          display: none;
+       }
+    }
+</style>

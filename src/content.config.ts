@@ -15,7 +15,7 @@ const blog = defineCollection({
 			pubDate: z.coerce.date(),
 			tags: z.array(z.string()),
 			// Escala de 1 (nada picante) a 5 (muito picante)
-			hot: z.number().min(1).max(5),
+			hot: z.number().min(0).max(5),
 			// Sua nota geral pro livro, de 1 a 10
 			nota: z.number().min(1).max(10),
 			couple: z.array(z.string()),

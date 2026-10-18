@@ -20,4 +20,6 @@ felizes.
 <br> Achei tão lindo que, ao longo do livro, memórias da infância dos personagens vão sendo trazidas, mostrando a intimidade e o carinho presente nas relações deles. Como tenho amigos 
 de infância, adoro quando essa temática é abordada de forma leve, de forma natural. 
 <br>Também adoro quando os personagens principais são vizinhos. Então, sim, recomendo muito essa leitura tão açucarada e que me trouxe sorrisos. 
-<br>Vou ler a continuação e depois conto aqui, se eu gostar ;)
+<br>Esse livro tem continuação ("Não é como nos filmes"), mas não vou fazer resenha do segundo livro, apesar de ter lido. Pessoalmente, não acredito em reatar relacionamentos que
+terminaram. Eu sei que é polêmico isso! Mas, acho que, quando um relacionamento acaba, é porque algo finalizou e tem que permanecer assim. Enfim. O segundo livro é bem legal, pra quem
+tem forma de pensar positiva sobre voltar com o ex.
